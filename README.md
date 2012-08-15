@@ -16,7 +16,7 @@ backlight intensity.
 To use: 
 
 change 
-  #include <LiquidCrystal.h>
+  #include &lt;LiquidCrystal.h>
 into
   #include <i2c_lcd.h>
 
