@@ -16,9 +16,16 @@ backlight intensity.
 To use: 
 
 change 
+
   #include &lt;LiquidCrystal.h>
+
 into
-  #include <i2c_lcd.h>
+
+  #include &lt;i2c_lcd.h>
+
+(for those reading this in plaintext in a cloned repository, the
+&lt; is a less than sign, which is written that way to display correctly
+on github.)
 
 and change
   LiquidCrystal lcd (......);
