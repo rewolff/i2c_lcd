@@ -78,6 +78,13 @@ public:
   void autoscroll();
   void noAutoscroll();
 
+
+  // special functions for the bitwizard LCDs. 
+  void reset();
+  void contrast(uint8_t val);
+  void backlight(uint8_t val);
+
+
   void createChar(uint8_t, uint8_t[]);
   void setCursor(uint8_t, uint8_t); 
   virtual void write(uint8_t);

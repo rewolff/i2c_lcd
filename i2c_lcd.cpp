@@ -34,6 +34,9 @@ void LiquidCrystal::init(uint8_t addr)
 {
   _addr = addr;
   Wire.begin();
+  delayMicroseconds (40000);
+  //  setregval (0x14, 1);
+  //delayMicroseconds (10000);
   begin (16, 2);
 }
 
@@ -141,13 +144,30 @@ void LiquidCrystal::noAutoscroll(void) {
   command(LCD_ENTRYMODESET | _displaymode);
 }
 
+void LiquidCrystal::reset(void) {
+  setregval (0x14, 1);
+}
 
+
+void LiquidCrystal::contrast(uint8_t val)
+{
+  setregval (0x12, val);
+}
+
+void LiquidCrystal::backlight(uint8_t val)
+{
+  setregval (0x13, val);
+}
 
 
 // Allows us to fill the first 8 CGRAM locations
 // with custom characters
 void LiquidCrystal::createChar(uint8_t location, uint8_t charmap[]) {
-  // Not yet implemented. 
+  location &= 0x7; // we only have 8 locations 0-7
+  command(LCD_SETCGRAMADDR | (location << 3));
+  for (int i=0; i<8; i++) {
+    write(charmap[i]);
+  }
 }
 
 
