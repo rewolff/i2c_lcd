@@ -22,6 +22,7 @@ change
 into
 
   #include &lt;Wire.h>
+
   #include &lt;i2c_lcd.h>
 
 (for those reading this in plaintext in a cloned repository, the
@@ -29,8 +30,11 @@ into
 on github.)
 
 and change
+
   LiquidCrystal lcd (......);
+
 into
+
   LiquidCrystal lcd;
 
 
