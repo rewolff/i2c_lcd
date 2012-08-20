@@ -12,7 +12,7 @@
 // include description files for other libraries used (if any)
 #include <inttypes.h>
 
-#include "Wire.h"
+#include <Wire.h>
 #include "Print.h"
 
 
@@ -42,6 +42,7 @@ void LiquidCrystal::begin(uint8_t cols, uint8_t lines, uint8_t dotsize)
 {
   _currline = 0;
   _numlines = lines;
+  _displaycontrol = LCD_DISPLAYON | LCD_CURSOROFF | LCD_BLINKOFF;  
 }
 
 
@@ -76,58 +77,72 @@ void LiquidCrystal::write(uint8_t val)
   setregval (0, val);
 }
 
+
+
+// Turn the display on/off (quickly)
 void LiquidCrystal::noDisplay() {
-  // Not yet implemented. 
+  _displaycontrol &= ~LCD_DISPLAYON;
+  command(LCD_DISPLAYCONTROL | _displaycontrol);
 }
-
 void LiquidCrystal::display() {
-  // Not yet implemented. 
+  _displaycontrol |= LCD_DISPLAYON;
+  command(LCD_DISPLAYCONTROL | _displaycontrol);
 }
-                           
+
+// Turns the underline cursor on/off
 void LiquidCrystal::noCursor() {
-  // Not yet implemented. 
+  _displaycontrol &= ~LCD_CURSORON;
+  command(LCD_DISPLAYCONTROL | _displaycontrol);
 }
-                           
 void LiquidCrystal::cursor() {
-  // Not yet implemented. 
+  _displaycontrol |= LCD_CURSORON;
+  command(LCD_DISPLAYCONTROL | _displaycontrol);
 }
 
-
+// Turn on and off the blinking cursor
 void LiquidCrystal::noBlink() {
-  // Not yet implemented. 
+  _displaycontrol &= ~LCD_BLINKON;
+  command(LCD_DISPLAYCONTROL | _displaycontrol);
 }
-                           
 void LiquidCrystal::blink() {
-  // Not yet implemented. 
+  _displaycontrol |= LCD_BLINKON;
+  command(LCD_DISPLAYCONTROL | _displaycontrol);
 }
 
 // These commands scroll the display without changing the RAM
 void LiquidCrystal::scrollDisplayLeft(void) {
-  // Not yet implemented. 
+  command(LCD_CURSORSHIFT | LCD_DISPLAYMOVE | LCD_MOVELEFT);
 }
 void LiquidCrystal::scrollDisplayRight(void) {
-  // Not yet implemented. 
+  command(LCD_CURSORSHIFT | LCD_DISPLAYMOVE | LCD_MOVERIGHT);
 }
 
 // This is for text that flows Left to Right
 void LiquidCrystal::leftToRight(void) {
-  // Not yet implemented. 
+  _displaymode |= LCD_ENTRYLEFT;
+  command(LCD_ENTRYMODESET | _displaymode);
 }
 
 // This is for text that flows Right to Left
 void LiquidCrystal::rightToLeft(void) {
-  // Not yet implemented. 
+  _displaymode &= ~LCD_ENTRYLEFT;
+  command(LCD_ENTRYMODESET | _displaymode);
 }
 
 // This will 'right justify' text from the cursor
 void LiquidCrystal::autoscroll(void) {
-  // Not yet implemented. 
+  _displaymode |= LCD_ENTRYSHIFTINCREMENT;
+  command(LCD_ENTRYMODESET | _displaymode);
 }
 
 // This will 'left justify' text from the cursor
 void LiquidCrystal::noAutoscroll(void) {
-  // Not yet implemented. 
+  _displaymode &= ~LCD_ENTRYSHIFTINCREMENT;
+  command(LCD_ENTRYMODESET | _displaymode);
 }
+
+
+
 
 // Allows us to fill the first 8 CGRAM locations
 // with custom characters
@@ -136,4 +151,9 @@ void LiquidCrystal::createChar(uint8_t location, uint8_t charmap[]) {
 }
 
 
-                           
+
+
+inline void LiquidCrystal::command(uint8_t value) {
+  setregval (1, value);
+}
+
