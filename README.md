@@ -21,6 +21,7 @@ change
 
 into
 
+  #include &lt;Wire.h>
   #include &lt;i2c_lcd.h>
 
 (for those reading this in plaintext in a cloned repository, the
@@ -34,4 +35,10 @@ into
 
 
 
+The library now supports everything the standard LCD library supports. 
+It also supports setting of contrast and backlight: 
 
+  lcd.contrast (0x20);
+  lcd.backlight (0xc0);
+
+(those are the defaults IIRC). 
